@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            h1 {
+                display: inline;
+                margin: 1rem;
+                vertical-align: middle;
+            }
+
+            h2 {
+                text-align: center;
+            }
+
+            #header {
+                width: max-content;
+            }
+
+            img {
+                vertical-align: middle;
+            }
+
+            footer {
+                background-color: #C6C8C9;
+                border-top: 1px solid;
+                box-sizing: border-box;
+                bottom: 0;
+                left: 0;
+                line-height: 0;
+                position: absolute;
+                text-align: center;
+                width: 100%;
+            }
+
+            footer a, footer a:hover {
+                color: black;
+                text-decoration: none;
+            }
+
+            main {
+                background-color: #C6C8C980;
+                border: solid;
+                margin: auto;
+                padding: 2rem;
+                position: relative;
+                width: min-content;
+            }
+
+            #size {
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div id="header">
+                <img src="./litecoin.png" title="Litecoin">
+                <h1>How Big is Litecoin</h1></br>
+            </div>
+            <div>
+                <h2><b>Size: </b><span id="size"></span></h2>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe aliquid inventore minus? Repudiandae deserunt voluptatibus culpa ullam obcaecati soluta nobis earum incidunt, perspiciatis sunt excepturi molestiae vel cumque quisquam consequatur aliquid repellendus veritatis aut a laudantium, enim perferendis fugit nostrum recusandae? Dolores excepturi est aliquid cumque unde natus, recusandae mollitia!</p>
+            </div></br>
+            <footer>
+                <a style="display: contents" href="https://campo-computing.com/"><p></p><p>&copy; Copyright Campo Computing 2020</p></a>
+            </footer>
+        </main>
+        <script>
+            var http_request = new XMLHttpRequest()
+            http_request.responseType = 'json';
+            http_request.open('GET', './data.json');
+            http_request.send(null);
+            http_request.onload = (event) => load_data(http_request.response);
+
+            function load_data(data) {
+                document.getElementById('size').innerText = convert(data['size'])
+            }
+
+            function convert(bytes) {
+                var kind = " bytes"
+                if(bytes >= 1024) {
+                    bytes = bytes / 1024;
+                    kind = " Kb";
+                }
+                if(bytes >= 1024) {
+                    bytes = bytes / 1024;
+                    kind = " Mb";
+                }
+                if(bytes >= 1024) {
+                    bytes = bytes / 1024;
+                    kind = " Gb";
+                }
+                bytes = bytes.toFixed(2);
+                return bytes+kind;
+            }
+        </script>
+    </body>
+</html>
