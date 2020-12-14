@@ -53,4 +53,5 @@ function readOther(file) {
 }
 
 data = read(folder)
+data['updated'] = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + " UTC"
 fs.writeFileSync('data.json', JSON.stringify(data))
