@@ -62,7 +62,8 @@
             </div>
             <div>
                 <h2><b>Size: </b><span id="size"></span></h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe aliquid inventore minus? Repudiandae deserunt voluptatibus culpa ullam obcaecati soluta nobis earum incidunt, perspiciatis sunt excepturi molestiae vel cumque quisquam consequatur aliquid repellendus veritatis aut a laudantium, enim perferendis fugit nostrum recusandae? Dolores excepturi est aliquid cumque unde natus, recusandae mollitia!</p>
+                <h3>Files</h3>
+                <p id="files">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe aliquid inventore minus? Repudiandae deserunt voluptatibus culpa ullam obcaecati soluta nobis earum incidunt, perspiciatis sunt excepturi molestiae vel cumque quisquam consequatur aliquid repellendus veritatis aut a laudantium, enim perferendis fugit nostrum recusandae? Dolores excepturi est aliquid cumque unde natus, recusandae mollitia!</p>
             </div></br>
             <footer>
                 <a style="display: contents" href="https://campo-computing.com/"><p></p><p>&copy; Copyright Campo Computing 2020</p></a>
@@ -75,25 +76,41 @@
             http_request.send(null);
             http_request.onload = (event) => load_data(http_request.response);
 
+            var stuff;
             function load_data(data) {
+                stuff = data
                 document.getElementById('size').innerText = convert(data['size'])
+                document.getElementById('files').innerText = ""
+                for(file in data['children']) {
+                    add_children(data['children'][file])
+                }
+            }
+
+            function add_children(data) {
+                if(data['children'] == undefined)
+                    document.getElementById('files').innerText += data['name'] + ": " + convert(data['size']) + "\r\n"
+                else
+                    document.getElementById('files').innerText += data['name'] + ": " + convert(data['size']) + "\r\n"
+                    // for(x in data['children'])
+                    //     add_children(data['children'][x])
             }
 
             function convert(bytes) {
                 var kind = " bytes"
-                if(bytes >= 1024) {
+                if(bytes >= 1000) {
                     bytes = bytes / 1024;
                     kind = " Kb";
                 }
-                if(bytes >= 1024) {
+                if(bytes >= 1000) {
                     bytes = bytes / 1024;
                     kind = " Mb";
                 }
-                if(bytes >= 1024) {
+                if(bytes >= 1000) {
                     bytes = bytes / 1024;
                     kind = " Gb";
                 }
-                bytes = bytes.toFixed(2);
+                if(kind != " bytes")
+                    bytes = bytes.toFixed(2);
                 return bytes+kind;
             }
         </script>
